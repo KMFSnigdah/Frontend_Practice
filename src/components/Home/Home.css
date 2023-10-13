@@ -1,0 +1,35 @@
+.home-container {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.home-heading {
+    color: #0077b6; 
+    font-size: 24px;
+}
+
+.loading-text {
+    color: #333; 
+    font-size: 16px;
+}
+
+.data-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.data-item {
+    color: #000; 
+    font-size: 16px;
+}
+
+.data-label {
+    font-weight: bold;
+}
+
+.data-value {
+    margin-left: 8px;
+}
