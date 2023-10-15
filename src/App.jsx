@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/profile";
 import UserDetails from "./pages/userDetails";
 import Layout from "./components/Layout/Layout";
+import Health from "./pages/health";
 
 function App() {
   return (
@@ -38,6 +39,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <UserDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/health"
+            element={
+              <ProtectedRoute>
+                <Health />
               </ProtectedRoute>
             }
           />
