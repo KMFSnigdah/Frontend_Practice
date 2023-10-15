@@ -1,12 +1,16 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'http://localhost:8202/api/v1/auth';
+const API_URL = "http://localhost:8202/api/v1/auth";
 
 export const login = async (loginData) => {
-    console.log(loginData + API_URL);
-    return await axios.post(`${API_URL}/login`, loginData)
-        .then((response) => response.data)
-        .catch((error) => {
-            throw error;
-        });
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  return await axios
+    .post(`${API_URL}/login`, loginData, { headers })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
 };

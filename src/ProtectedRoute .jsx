@@ -1,18 +1,18 @@
-import { Navigate, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Navigate, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const ProtectedRoute = ({ children }) => {
-    const location = useLocation();
+  const location = useLocation();
 
-    if (!localStorage.getItem('token')) {
-        return <Navigate to="/login" state={{ from: location }} replace />;
-    }
+  if (!localStorage.getItem("token")) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 
-    return children;
+  return children;
 };
 
 ProtectedRoute.propTypes = {
-    children: PropTypes.node,
+  children: PropTypes.node,
 };
 
 export default ProtectedRoute;
