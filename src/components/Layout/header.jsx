@@ -50,9 +50,8 @@ const Header = () => {
             </button>
           </div>
           <div
-            className={`${
-              isMenuOpen ? "block" : "hidden"
-            } justify-between items-center w-full lg:flex lg:w-auto lg:order-1`}
+            className={`${isMenuOpen ? "block" : "hidden"
+              } justify-between items-center w-full lg:flex lg:w-auto lg:order-1`}
             id="mobile-menu-2"
           >
             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
@@ -69,10 +68,18 @@ const Header = () => {
                 <>
                   <li>
                     <Link
-                      to="/" // Updated path for My Health
+                      to="/health" // Updated path for My Health
                       className="block py-2 pr-4 pl-3 rounded-lg text-gray-700 border-b border-gray-100 hover-bg-gray-200 lg:hover-bg-transparent lg:border-0 lg:hover-text-primary-700 lg:p-0 dark:text-gray-400 lg-dark-hover-text-white dark-hover-bg-gray-700 dark-hover-text-white lg-dark-hover-bg-transparent dark-border-gray-700"
                     >
                       My Health
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/create/profile"
+                      className="block py-2 pr-4 pl-3 rounded-lg text-gray-700 border-b border-gray-100 hover-bg-gray-200 lg:hover-bg-transparent lg:border-0 lg:hover-text-primary-700 lg:p-0 dark:text-gray-400 lg-dark-hover-text-white dark-hover-bg-gray-700 dark-hover-text-white lg-dark-hover-bg-transparent dark-border-gray-700"
+                    >
+                      Create Profile
                     </Link>
                   </li>
                   {/* Include similar Link components for other routes */}

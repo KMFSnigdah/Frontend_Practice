@@ -11,6 +11,7 @@ import Profile from "./pages/profile";
 import UserDetails from "./pages/userDetails";
 import Layout from "./components/Layout/Layout";
 import Health from "./pages/health";
+import CreateProfile from "./pages/createProfile";
 
 function App() {
   return (
@@ -47,6 +48,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Health />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create/profile"
+            element={
+              <ProtectedRoute>
+                <CreateProfile />
               </ProtectedRoute>
             }
           />
