@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import * as UserInfoService from "../services/userInfo"
 import ModalComponent from "../components/Modal/ModalComponent";
 import PropTypes from 'prop-types';
+import InputField from '../components/common/InputField';
+import { Profile } from '../models/Profile'
+import { useForm } from "react-hook-form";
+import * as ProfileService from "../services/userInfo";
 
 const Health = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -33,11 +37,9 @@ const Health = () => {
     setIsModalVisible(false);
   };
 
-  const handleFormSubmit = (formData) => {
-    // latter implement
-    console.log("Form data submitted:", formData);
-    // latter implement
+  const handleModal = () => {
     setIsModalVisible(false);
+    fetchInfoData();
   };
 
   return (
@@ -52,9 +54,9 @@ const Health = () => {
               visible={isModalVisible}
               handleCancel={handleCancel}
             >
-              <FormComponent onSubmit={handleFormSubmit} />
+              <FormComponent modalHandle={handleModal} initialData={data} />
             </ModalComponent>
-            <ProfileInfo data={data} onEditProfileClick={showModal} />
+            <ProfileInfo data={data} onEditProfileClick={showModal} initialData={data} />
           </>
         )}
       </div>
@@ -63,48 +65,125 @@ const Health = () => {
 };
 
 
-const FormComponent = ({ onSubmit }) => {
-  const [formData, setFormData] = useState({ name: "", email: "" });
+const FormComponent = ({ modalHandle, initialData }) => {
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm({
+    defaultValues: {
+      'name': initialData.name,
+      'mobile': initialData.mobile,
+      'personal.address': initialData.personal.address,
+      'personal.district': initialData.personal.district,
+      'personal.additional.road': initialData.personal.additional.road,
+      'personal.additional.bus': initialData.personal.additional.bus
+    }
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData);
+  // useEffect(() => {
+  //   setValue('name', initialData.name);
+
+  // }, [initialData, setValue]);
+
+  const onSubmit = (data) => {
+
+    const profileData = new Profile({
+      ...data,
+      name: data.name,
+      mobile: data.mobile,
+      address: data.address,
+      district: data.district,
+      road: data.road,
+      bus: data.bus,
+    });
+
+    ProfileService.updateUserInfo(profileData)
+      .then((res) => {
+        if (res.request.status === 200) {
+          modalHandle();
+        }
+      })
+      .catch((err) => {
+        const { message } = err.response.data;
+        setErrorMessage(message);
+
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <InputField
           name="name"
-          value={formData.name}
-          onChange={handleChange}
+          label="Name"
+          type="text"
+          rules={{ required: true, maxLength: 30, minLength: 5 }}
+          placeholder="Name"
+          register={register}
+          errors={errors}
         />
-      </div>
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
+
+        <InputField
+          name="mobile"
+          label="Mobile"
+          type="number"
+          rules={{ required: true, minLength: 5 }}
+          placeholder="Mobile"
+          register={register}
+          errors={errors}
         />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+
+        <InputField
+          name="address"
+          label="Address"
+          type="text"
+          rules={{ required: true }}
+          placeholder="Address"
+          register={register}
+          errors={errors}
+        />
+
+        <InputField
+          name="district"
+          label="District"
+          type="text"
+          rules={{ required: true }}
+          placeholder="District"
+          register={register}
+          errors={errors}
+        />
+
+        <InputField
+          name="road"
+          label="Road"
+          type="text"
+          rules={{ required: true }}
+          placeholder="Road"
+          register={register}
+          errors={errors}
+        />
+
+        <InputField
+          name="bus"
+          label="Bus"
+          type="text"
+          rules={{ required: true }}
+          placeholder="Bus"
+          register={register}
+          errors={errors}
+        />
+
+        <button type="submit">Submit</button>
+      </form>
+    </>
   );
 };
 FormComponent.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-
+  modalHandle: PropTypes.func.isRequired,
+  initialData: PropTypes.object,
 };
 
 const ProfileInfo = ({ data, onEditProfileClick }) => {

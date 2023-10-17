@@ -7,34 +7,39 @@ import InputField from '../components/common/InputField';
 
 const CreateProfile = () => {
     const [errorMessage, setErrorMessage] = useState("");
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = async (data) => {
-        try {
-            const profileData = new Profile({
-                name: data.name,
-                mobile: data.mobile,
-                address: data.address,
-                district: data.district,
-                road: data.road,
-                bus: data.bus,
-            });
-            console.log(profileData);
-            const response = await ProfileService.createUserInfo(profileData);
-            if (response.request.status === 200) {
-                navigate("/health");
-            }
-        } catch (error) {
-            if (error.response) {
-                const { message } = error.response.data;
+    const onSubmit = (data) => {
+
+        const profileData = new Profile({
+            ...data,
+            name: data.name,
+            mobile: data.mobile,
+            address: data.address,
+            district: data.district,
+            road: data.road,
+            bus: data.bus,
+        });
+
+
+        ProfileService.createUserInfo(profileData)
+            .then((res) => {
+                if (res.request.status === 200) {
+                    navigate("/health");
+                }
+            })
+            .catch((err) => {
+                const { message } = err.response.data;
                 setErrorMessage(message);
-            } else {
-                console.error('Error:', error.message);
-            }
-        }
+
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
 
