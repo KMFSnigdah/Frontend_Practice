@@ -4,7 +4,6 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import ProtectedRoute from "./ProtectedRoute ";
 
 import Login from "./pages/Login";
 import Profile from "./pages/profile";
@@ -13,6 +12,9 @@ import Layout from "./components/Layout/Layout";
 import Health from "./pages/health";
 import CreateProfile from "./pages/createProfile";
 import Home from "./pages/home";
+import Authenticate from "./Auth/ProtectedRoute";
+
+
 
 function App() {
   return (
@@ -20,46 +22,42 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route
-            path="/home"
-            element={
-              <ProtectedRoute>
+          <Route element={<Authenticate />}>
+            <Route
+              path="/home"
+              element={
                 <Home />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/profile"
+              element={
                 <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile/user-details/:userId"
-            element={
-              <ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/profile/user-details/:userId"
+              element={
                 <UserDetails />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/health"
-            element={
-              <ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/health"
+              element={
                 <Health />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/create/profile"
-            element={
-              <ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/create/profile"
+              element={
                 <CreateProfile />
-              </ProtectedRoute>
-            }
-          />
+              }
+            />
+          </Route>
           <Route index={true} element={<Navigate to="/login" />} />
         </Routes>
       </Layout>
@@ -68,3 +66,59 @@ function App() {
 }
 
 export default App;
+
+
+// function App() {
+//   return (
+//     <Router>
+//       <Layout>
+//         <Routes>
+//           <Route path="/login" element={<Login />} />
+//           <Route
+//             path="/home"
+//             element={
+//               <ProtectedRoute>
+//                 <Home />
+//               </ProtectedRoute>
+//             }
+//           />
+//           <Route
+//             path="/profile"
+//             element={
+//               <ProtectedRoute>
+//                 <Profile />
+//               </ProtectedRoute>
+//             }
+//           />
+//           <Route
+//             path="/profile/user-details/:userId"
+//             element={
+//               <ProtectedRoute>
+//                 <UserDetails />
+//               </ProtectedRoute>
+//             }
+//           />
+//           <Route
+//             path="/health"
+//             element={
+//               <ProtectedRoute>
+//                 <Health />
+//               </ProtectedRoute>
+//             }
+//           />
+//           <Route
+//             path="/create/profile"
+//             element={
+//               <ProtectedRoute>
+//                 <CreateProfile />
+//               </ProtectedRoute>
+//             }
+//           />
+//           <Route index={true} element={<Navigate to="/login" />} />
+//         </Routes>
+//       </Layout>
+//     </Router>
+//   );
+// }
+
+// export default App;
