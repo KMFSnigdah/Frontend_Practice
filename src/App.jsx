@@ -5,13 +5,14 @@ import {
   Navigate,
 } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute ";
-import Home from "./components/Home/Home";
+
 import Login from "./pages/Login";
 import Profile from "./pages/profile";
 import UserDetails from "./pages/userDetails";
 import Layout from "./components/Layout/Layout";
 import Health from "./pages/health";
 import CreateProfile from "./pages/createProfile";
+import Home from "./pages/home";
 
 function App() {
   return (

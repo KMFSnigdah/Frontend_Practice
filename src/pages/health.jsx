@@ -7,6 +7,7 @@ import InputField from '../components/common/InputField';
 import { Profile } from '../models/Profile'
 import { useForm } from "react-hook-form";
 import * as ProfileService from "../services/userInfo";
+import TimerAlert from '../components/common/TimerAlert';
 
 const Health = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -69,6 +70,8 @@ const FormComponent = ({ modalHandle, initialData }) => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+
   const { register, handleSubmit, formState: { errors }, setValue } = useForm({
     defaultValues: {
       'name': initialData.name,
@@ -106,6 +109,7 @@ const FormComponent = ({ modalHandle, initialData }) => {
       .catch((err) => {
         const { message } = err.response.data;
         setErrorMessage(message);
+        setIsError(true);
 
       })
       .finally(() => {
@@ -115,6 +119,17 @@ const FormComponent = ({ modalHandle, initialData }) => {
 
   return (
     <>
+      {isError && (
+        <TimerAlert
+          visible={isError}
+          setVisible={setIsError}
+          message={errorMessage}
+          type="error"
+          className="mb-3.5 p-2 m-5"
+          showIcon
+          closable
+        />
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <InputField
           name="name"

@@ -4,10 +4,12 @@ import { useState } from "react";
 import * as ProfileService from "../services/userInfo";
 import { useNavigate } from "react-router-dom";
 import InputField from '../components/common/InputField';
+import TimerAlert from '../components/common/TimerAlert';
 
 const CreateProfile = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
     const navigate = useNavigate();
 
 
@@ -35,7 +37,7 @@ const CreateProfile = () => {
             .catch((err) => {
                 const { message } = err.response.data;
                 setErrorMessage(message);
-
+                setIsError(true);
             })
             .finally(() => {
                 setLoading(false);
@@ -45,6 +47,17 @@ const CreateProfile = () => {
 
     return (
         <>
+            {isError && (
+                <TimerAlert
+                    visible={isError}
+                    setVisible={setIsError}
+                    message={errorMessage}
+                    type="error"
+                    className="mb-3.5 p-2 m-5"
+                    showIcon
+                    closable
+                />
+            )}
             <div>
                 Profile Form
             </div>

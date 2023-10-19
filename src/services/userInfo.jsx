@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axioss from '../AppConfig/axiosConfig';
 
 const API_URL = 'http://localhost:8202/api/v1/userInfo';
 const token = localStorage.getItem('token');
@@ -8,13 +9,22 @@ const headers = {
 }
 
 // Get User information
+// export const getUserInfo = async () => {
+//     return await axios
+//         .get(`${API_URL}/getById`, { headers })
+//         .then((response) => response)
+//         .catch((error) => {
+//             throw error;
+//         });
+// }
+
 export const getUserInfo = async () => {
-    return await axios
-        .get(`${API_URL}/getById`, { headers })
+    return await axioss
+        .get('/userInfo/getById')
         .then((response) => response)
         .catch((error) => {
             throw error;
-        });
+        })
 }
 
 // Create User Info
